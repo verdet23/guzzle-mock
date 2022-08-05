@@ -38,8 +38,6 @@ jobs:
         run: composer install --prefer-dist --no-progress
       - name: Run PHPCS
         run: phpcs
-      - name: Run PHP CS Fixer
-        run: phpcs php-cs-fixer fix --dry-run --verbose
   php-cs-fixer:
     runs-on: ubuntu-latest
     steps:
@@ -53,4 +51,4 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
       - name: Run PHP CS Fixer
-        run: phpcs php-cs-fixer fix --dry-run --verbose
+        run: php-cs-fixer fix --dry-run --verbose
