@@ -14,22 +14,6 @@ env:
   key: cache_v1
 
 jobs:
-  code-checks:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          tools: ${{ env.tools }}
-      - name: Run PHPStan
-        run: phpstan analyse
-      - name: Run PHPCS
-        run: phpcs
-      - name: Run PHP CS Fixer
-        run: phpcs php-cs-fixer fix --dry-run --verbose
   phpunit:
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -68,6 +52,7 @@ jobs:
         run: |
           composer global require php-coveralls/php-coveralls
           php-coveralls --coverage_clover=build/logs/clover.xml -v
+
   coveralls-finish:
     needs: [phpunit]
     runs-on: ubuntu-18.04
