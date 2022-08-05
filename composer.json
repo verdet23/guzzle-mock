@@ -1,0 +1,29 @@
+{
+    "name": "verdet/guzzle-mock",
+    "description": "Guzzle Mock Handler",
+    "type": "guzzle-extension",
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Verdet\\GuzzleMock\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Verdet\\GuzzleMock\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ihor Khokhlov",
+            "email": "eld2303@gmail.com"
+        }
+    ]
+}
