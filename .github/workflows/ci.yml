@@ -42,8 +42,10 @@ jobs:
             ${{ runner.os }}-php-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
+      - name: Configure matchers
+        uses: mheap/phpunit-matcher-action@v1
       - name: Run test suite
-        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml --teamcity
       - name: Upload coverage results to Coveralls
         env:
           COVERALLS_PARALLEL: true
@@ -54,8 +56,9 @@ jobs:
           php-coveralls --coverage_clover=build/logs/clover.xml -v
 
   coveralls-finish:
+    if: ${{ always() }}
     needs: [phpunit]
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Coveralls Finished
         uses: coverallsapp/github-action@master

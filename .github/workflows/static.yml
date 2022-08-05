@@ -58,8 +58,10 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
+      - name: Enable problem mathcer
+        run: echo "::add-matcher::${{ github.workspace }}/.github/workflows/phpcs-problem-matcher.json"
       - name: Run PHPCS
-        run: phpcs -p
+        run: phpcs -p --report=checkstyle
   php-cs-fixer:
     runs-on: ubuntu-latest
     steps:
@@ -83,5 +85,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
+      - name: Enable problem mathcer
+        run: echo "::add-matcher::${{ github.workspace }}/.github/workflows/phpcsfixer-problem-matcher.json"
       - name: Run PHP CS Fixer
-        run: php-cs-fixer fix --dry-run --verbose
+        run: php-cs-fixer fix --dry-run --format=checkstyle

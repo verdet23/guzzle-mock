@@ -1,0 +1,21 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "phpcsfixer",
+      "severity": "error",
+      "pattern": [
+        {
+          "regexp": "<file name=\"([\\w/.]+)\">$",
+          "file": 1
+        },
+        {
+          "regexp": "<error severity=\"(error|warning)\" source=\"(.*)\" message=\"(.*)(\"\\/>+)",
+          "severity": 1,
+          "code": 2,
+          "message": 3,
+          "loop": true
+        }
+      ]
+    }
+  ]
+}
