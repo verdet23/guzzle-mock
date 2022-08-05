@@ -59,7 +59,7 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
       - name: Run PHPCS
-        run: phpcs
+        run: phpcs -p
   php-cs-fixer:
     runs-on: ubuntu-latest
     steps:
