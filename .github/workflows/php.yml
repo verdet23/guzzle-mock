@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.2', '8.1', '8.0' ]
+        php-versions: [ '8.1', '8.0' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -57,6 +57,8 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
       - name: Upload coverage results to Coveralls
         env:
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: php-${{ matrix.php-versions }}
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           composer global require php-coveralls/php-coveralls
