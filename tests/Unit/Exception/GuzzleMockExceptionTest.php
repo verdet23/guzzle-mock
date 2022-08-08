@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Verdet\GuzzleMock\Tests\Unit\Exception;
 
 use GuzzleHttp\Psr7\Request;
-use Verdet\GuzzleMock\Exception\GuzzleMockException;
 use PHPUnit\Framework\TestCase;
+use Verdet\GuzzleMock\Exception\GuzzleMockException;
 
 class GuzzleMockExceptionTest extends TestCase
 {

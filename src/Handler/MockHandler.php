@@ -84,7 +84,7 @@ class MockHandler implements Countable
         }
 
         if (isset($options['delay']) && \is_numeric($options['delay'])) {
-            \usleep((int)$options['delay'] * 1000);
+            \usleep((int) $options['delay'] * 1000);
         }
 
         $this->lastRequest = $request;
@@ -120,7 +120,7 @@ class MockHandler implements Countable
                 }
 
                 if (null !== $value && isset($options['sink'])) {
-                    $contents = (string)$value->getBody();
+                    $contents = (string) $value->getBody();
                     $sink = $options['sink'];
 
                     if (\is_resource($sink)) {

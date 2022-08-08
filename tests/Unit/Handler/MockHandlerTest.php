@@ -36,7 +36,7 @@ class MockHandlerTest extends TestCase
     public function testEnsuresEachAppendOnCreationIsValid(): void
     {
         $this->expectException(TypeError::class);
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         new MockHandler([new Request('GET', 'https://example.com'), 'd']);
     }
 
@@ -45,7 +45,8 @@ class MockHandlerTest extends TestCase
         $this->expectException(TypeError::class);
 
         $mock = new MockHandler();
-        /** @phpstan-ignore-next-line */
+
+        /* @phpstan-ignore-next-line */
         $mock->append(new Request('GET', 'https://example.com'), 'd');
     }
 
@@ -223,8 +224,7 @@ class MockHandlerTest extends TestCase
 
         $mock = new MockHandler([[$request, $response]]);
 
-
-        /** @var TransferStats|null $stats */
+        /* @var TransferStats|null $stats */
         $stats = null;
         $onStats = static function (TransferStats $s) use (&$stats) {
             $stats = $s;
