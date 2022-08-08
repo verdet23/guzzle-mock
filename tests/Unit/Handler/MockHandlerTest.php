@@ -304,4 +304,31 @@ class MockHandlerTest extends TestCase
 
         $mock($requestActual, []);
     }
+
+    public function testFindSuitableByContentType(): void
+    {
+        $requestXML = new Request(
+            'GET',
+            'https://example.com/page',
+            ['Accept-Charset' => 'utf-8', 'Accept' => 'application/xml']
+        );
+        $responseXML = new Response(
+            200,
+            ['Accept' => 'application/xml'],
+            '<?xml version="1.0" encoding="UTF-8"?>'
+        );
+
+        $requestJson = new Request('GET', 'https://example.com/page', ['Accept' => 'application/json']);
+        $responseJson = new Response(
+            200,
+            ['Content-Type' => 'application/json'],
+            '{}'
+        );
+
+        $mock = new MockHandler([[$requestJson, $responseJson], [$requestXML, $responseXML]]);
+
+        $result = $mock($requestJson, [])->wait();
+
+        $this->assertSame($responseJson, $result);
+    }
 }
