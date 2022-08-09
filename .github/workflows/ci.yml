@@ -9,10 +9,6 @@ on:
 permissions:
   contents: read
 
-env:
-  tools: composer, phpstan, phpcs, php-cs-fixer
-  key: cache_v1
-
 jobs:
   phpunit:
     runs-on: ${{ matrix.operating-system }}
@@ -37,7 +33,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-php-
       - name: Install dependencies
