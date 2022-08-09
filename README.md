@@ -1,9 +1,9 @@
 # Guzzle Mock Handler
 
-![Packagist Version](https://img.shields.io/packagist/v/verdet/guzzle-mock)
+[![Packagist Version](https://img.shields.io/packagist/v/verdet/guzzle-mock)](https://packagist.org/packages/verdet/guzzle-mock)
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/verdet23/guzzle-mock/master)
 [![Coverage Status](https://coveralls.io/repos/github/verdet23/guzzle-mock/badge.svg)](https://coveralls.io/github/verdet23/guzzle-mock)
-![GitHub](https://img.shields.io/github/license/verdet23/guzzle-mock?color=blue)
+[![License](https://img.shields.io/github/license/verdet23/guzzle-mock?color=blue)](https://raw.githubusercontent.com/verdet23/guzzle-mock/master/LICENSE)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/verdet/guzzle-mock)
 
 ## Description
