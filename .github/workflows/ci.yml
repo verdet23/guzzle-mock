@@ -38,12 +38,12 @@ jobs:
             ${{ runner.os }}-php-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
-      - name: Configure matchers
-        run: ESCAPED_KEYWORD=$(printf '%s\n' "${{ github.workspace }}" | sed -e 's/[]\/$*.^[]/\\&/g'); sed -i "s/GH_WS/$ESCAPED_KEYWORD/g" ${{ github.workspace }}/.github/workflows/phpunit-problem-matcher.json;
       - name: Enable matcher
-        run: echo "::add-matcher::${{ github.workspace }}/.github/workflows/phpunit-problem-matcher.json"
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Check
+        run: ls "${{ runner.tool_cache }}"
       - name: Run test suite
-        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml --teamcity
+        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
       - name: Upload coverage results to Coveralls
         env:
           COVERALLS_PARALLEL: true
