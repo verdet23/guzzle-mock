@@ -40,8 +40,6 @@ jobs:
         run: composer install --prefer-dist --no-progress
       - name: Enable matcher
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-      - name: Check
-        run: ls "${{ runner.tool_cache }}"
       - name: Run test suite
         run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
       - name: Upload coverage results to Coveralls
