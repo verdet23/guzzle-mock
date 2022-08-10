@@ -7,6 +7,7 @@ namespace Verdet\GuzzleMock\Tests\Unit\Handler;
 use Exception;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
@@ -16,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use TypeError;
 use Verdet\GuzzleMock\Exception\GuzzleMockException;
 use Verdet\GuzzleMock\Handler\MockHandler;
+use RuntimeException;
 
 class MockHandlerTest extends TestCase
 {
@@ -95,7 +97,7 @@ class MockHandlerTest extends TestCase
 
     public function testSinkResource(): void
     {
-        $file = \tmpfile();
+        $file = \tmpfile() ?: throw new RuntimeException();
         $meta = \stream_get_meta_data($file);
         $response = new Response(200, [], 'TEST CONTENT');
         $request = new Request('GET', '/');
@@ -110,7 +112,7 @@ class MockHandlerTest extends TestCase
 
     public function testSinkStream(): void
     {
-        $stream = new Stream(\tmpfile());
+        $stream = new Stream(\tmpfile() ?: throw new RuntimeException());
         $response = new Response(200, [], 'TEST CONTENT');
         $request = new Request('GET', '/');
 
@@ -214,7 +216,10 @@ class MockHandlerTest extends TestCase
         $mock = MockHandler::createWithMiddleware([[$request, $response]]);
 
         $this->expectException(BadResponseException::class);
-        $mock($request, ['http_errors' => true])->wait();
+        $p = $mock($request, ['http_errors' => true]);
+        if ($p instanceof PromiseInterface) {
+            $p->wait();
+        }
     }
 
     public function testInvokesOnStatsFunctionForResponse(): void
@@ -231,6 +236,7 @@ class MockHandlerTest extends TestCase
         };
         $p = $mock($request, ['on_stats' => $onStats]);
         $p->wait();
+        $this->assertNotNull($stats);
         $this->assertSame($response, $stats->getResponse());
         $this->assertSame($request, $stats->getRequest());
     }
@@ -252,9 +258,11 @@ class MockHandlerTest extends TestCase
             $stats = $s;
         };
         $mock($request, ['on_stats' => $onStats])->wait(false);
-        self::assertSame($exception, $stats->getHandlerErrorData());
-        self::assertNull($stats->getResponse());
-        self::assertSame($request, $stats->getRequest());
+
+        $this->assertNotNull($stats);
+        $this->assertSame($exception, $stats->getHandlerErrorData());
+        $this->assertNull($stats->getResponse());
+        $this->assertSame($request, $stats->getRequest());
     }
 
     public function testTransferTime(): void
@@ -271,7 +279,9 @@ class MockHandlerTest extends TestCase
             $stats = $s;
         };
         $mock($request, ['on_stats' => $onStats, 'transfer_time' => 0.4])->wait(false);
-        self::assertEquals(0.4, $stats->getTransferTime());
+
+        $this->assertNotNull($stats);
+        $this->assertEquals(0.4, $stats->getTransferTime());
     }
 
     public function testResetQueue(): void
@@ -282,13 +292,13 @@ class MockHandlerTest extends TestCase
 
         $mock = new MockHandler([[$request, $response], [$request, $exception]]);
 
-        self::assertCount(2, $mock);
+        $this->assertCount(2, $mock);
 
         $mock->reset();
-        self::assertEmpty($mock);
+        $this->assertEmpty($mock);
 
         $mock->append($request, $response);
-        self::assertCount(1, $mock);
+        $this->assertCount(1, $mock);
     }
 
     public function testSuitableResponseNotFound(): void
