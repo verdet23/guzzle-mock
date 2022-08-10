@@ -1,7 +1,7 @@
 # Guzzle Mock Handler
 
 [![Packagist Version](https://img.shields.io/packagist/v/verdet/guzzle-mock)](https://packagist.org/packages/verdet/guzzle-mock)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/verdet23/guzzle-mock/master)
+[![CI](https://github.com/verdet23/guzzle-mock/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/verdet23/guzzle-mock/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/verdet23/guzzle-mock/badge.svg)](https://coveralls.io/github/verdet23/guzzle-mock)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen)](https://raw.githubusercontent.com/verdet23/guzzle-mock/master/phpstan.neon)
 [![Coding Style](https://img.shields.io/badge/Coding%20Style-PSR--12-yellowgreen)](https://www.php-fig.org/psr/psr-12/)
