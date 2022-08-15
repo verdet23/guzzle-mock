@@ -6,7 +6,6 @@ namespace Verdet\GuzzleMock\Tests\Unit\Exception;
 
 use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Verdet\GuzzleMock\Exception\GuzzleMockException;
 
 class GuzzleMockExceptionTest extends TestCase
@@ -20,7 +19,7 @@ class GuzzleMockExceptionTest extends TestCase
                 'Accept-Encoding' => 'gzip',
                 'Content-Type' => 'application/json',
             ],
-            json_encode(['foo' => 'bar', 'query' => 8472]) ?: throw new RuntimeException()
+            json_encode(['foo' => 'bar', 'query' => 8472], JSON_THROW_ON_ERROR)
         );
 
         $exception = GuzzleMockException::suitableResponseNotFound($request);

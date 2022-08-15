@@ -81,7 +81,7 @@ class MockHandlerTest extends TestCase
 
     public function testSinkFilename(): void
     {
-        $filename = \sys_get_temp_dir() . '/mock_test_' . \uniqid();
+        $filename = \sys_get_temp_dir() . '/mock_test_' . \uniqid('', true);
         $response = new Response(200, [], 'TEST CONTENT');
         $request = new Request('GET', '/');
 
@@ -339,6 +339,52 @@ class MockHandlerTest extends TestCase
 
         $result = $mock($requestJson, [])->wait();
 
+        $this->assertSame($responseJson, $result);
+    }
+
+    public function testObtainCoupleResult(): void
+    {
+        $requestXML = new Request(
+            'GET',
+            'https://example.com/page',
+            ['Accept-Charset' => 'utf-8', 'Accept' => 'application/xml']
+        );
+        $responseXML = new Response(
+            200,
+            ['Accept' => 'application/xml'],
+            '<?xml version="1.0" encoding="UTF-8"?>'
+        );
+
+        $requestJson = new Request('GET', 'https://example.com/page', ['Accept' => 'application/json']);
+        $responseJson = new Response(
+            200,
+            ['Content-Type' => 'application/json'],
+            '{}'
+        );
+
+        $requestHTML = new Request('GET', 'https://example.com/page', ['Accept' => 'text/html']);
+        $responseHTML = new Response(
+            200,
+            ['Content-Type' => 'text/htnl'],
+            '<html></html>'
+        );
+
+        $mock = new MockHandler(
+            [
+                [$requestJson, $responseJson],
+                [$requestXML, $responseXML],
+                [$requestHTML, $responseHTML]
+            ]
+        );
+
+
+        $result = $mock($requestHTML, [])->wait();
+        $this->assertSame($responseHTML, $result);
+
+        $result = $mock($requestXML, [])->wait();
+        $this->assertSame($responseXML, $result);
+
+        $result = $mock($requestJson, [])->wait();
         $this->assertSame($responseJson, $result);
     }
 }

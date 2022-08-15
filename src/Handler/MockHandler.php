@@ -191,7 +191,7 @@ class MockHandler implements Countable
 
     private function getSuitableResponse(RequestInterface $request): mixed
     {
-        foreach (array_reverse($this->queue) as $key => $fixture) {
+        foreach ($this->queue as $key => $fixture) {
             $queueRequest = $fixture[0];
             if (
                 !$this->isSuitableMethod($queueRequest, $request)
